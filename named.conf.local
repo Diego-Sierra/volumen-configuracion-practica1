@@ -6,3 +6,9 @@
 // organization
 //include "/etc/bind/zones.rfc1918";
 
+zone "practica.com" {
+    type master;
+    file "/etc/bind/db.practica.com";
+};
+
+
