@@ -9,8 +9,10 @@ $TTL	604800
 			2419200		; Expire
 			 604800 )	; Negative Cache TTL
 ;
-@	IN	NS	ns.practica.com.
-@   IN  A   10.10.0.12
-@	IN	AAAA	::1
-ns  IN  A   10.10.0.12
-maquina1 IN A 10.10.0.2
+@	      IN   NS	ns.practica.com.
+@         IN   A   10.10.0.12
+@	      IN  AAAA ::1
+ns        IN   A   10.10.0.12
+maquina1  IN   A   10.10.0.2
+www       IN CNAME ns.practica.com.
+@         in  TXT  "texto de prueba"
