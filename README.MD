@@ -94,14 +94,93 @@ Cuando un registro de este fichero finaliza con un "." significa que hemos intro
   ```
   indica la direccion ip de practica.com
 
-  Podemos asociar cada equipo del dominio con un nombre y una IP de forma que:
+  Podemos asociar cada equipo del dominio con un nombre y una IP de forma que con:
 
   ```
   maquina1  IN   A   10.10.0.2
   ```
 
-  Cuando el servidor DNS reciba una solicitud DNS sobre maquina1.practica.com devolverá la IP 10.10.0.2
-
+  cuando el servidor DNS reciba una solicitud DNS sobre maquina1.practica.com devolverá la IP 10.10.0.2
   
+  Utilizando el registro **_CNAME_** podemos introducir un alias para un equipo. Con
 
+  ```
+  www       IN CNAME ns.practica.com.
+  ```
+
+  Indicamos que www.practica.com es _otro_ nombre de ns.practica.com, por lo que al preguntar por www.practica.com recibiremos la IP 10.10.0.12.
+
+  Podemos añadir tambien un texto con informacion:
+  ```
+  @         in  TXT  "texto de prueba"
+  ```
+  Se trata de un registro de texto utilizado para facilitar la búsqueda de tu dominio.
+
+  Servicios como Google utilizan a menudo los registros de texto. Nos pueden solicitar que agreguemos ciertas cadenas al registro TXT, de forma que los motores de búsqueda y otros servicios pueden buscar tu dominio y comprobar que somos su propietario.
   
+  Existen otros registros, como AAA (IPv6) o MX (se usa para dirigir los emails enviados a direcciones personalizadas relacionadas con el nombre de dominio).
+
++ En definitiva, la configuración completa del archivo **db.practica.com** ha quedado de la siguiente manera:
+
+```
+;
+; BIND data file for local loopback interface
+;
+$TTL	604800
+@	IN	SOA	practica.com. root.practica.com. (
+			      2		; Serial
+			 604800		; Refresh
+			  86400		; Retry
+			2419200		; Expire
+			 604800 )	; Negative Cache TTL
+;
+@	      IN   NS	ns.practica.com.
+@         IN   A   10.10.0.12
+@	      IN  AAAA ::1
+ns        IN   A   10.10.0.12
+maquina1  IN   A   10.10.0.2
+www       IN CNAME ns.practica.com.
+@         in  TXT  "texto de prueba"
+```
+
+## **-Comprobar el funcionamiento del servidor**
+
+Se utiliza el comando **DIG** en el cliente. Este comando nos permite realizar consultas DNS sobre cualquiera de los registros almacenados en un servidor DNS. Si realizamos una pregunta sobre un determinado nombre podremos obtener informacion sobre su IP y demas registros o su servidor autoritativo. Ademas, jugando con los parametros del comando, podemos obtener la ruta que ha seguido nuestra consulta a traves de los diferentes servidores y consultar que servidor nos ha enviado la respuesta.
+
+Como nuestro SO Ubuntu tiene por defecto instalado un servidor DNS local para recibir las respuestas al utilizar el comando DIG veremos que nos estamos dando la respuesta nosotros mismos (127.0.0.1)
+
+Por ello, para comprobar que la configuración se ha realizado correctamente, debemos realizar busquedas que nos devuelvan resultados acordes a la configuracion que hemos realizado. Por ejemplo, si introducimos el comando
+
+```
+dig practica.com
+```
+
+recibiremos como respuesta:
+```
+practica.com.           604800  IN      A       10.10.0.12
+```
+
+Es decir, estamos recibiendo la informacion que hemos configurado en nuestro archivo de zona. Probamos con los demas registros, como el servidor de DNS o el TXT:
+
+```
+dig NS practica.com
+```
+
+```
+dig TXT practica.com
+```
+
+Y las respuestas que recibimos dejan claro que la configuracion es correcta:
+
+```
+;; ANSWER SECTION:
+practica.com.           604800  IN      NS      ns.practica.com.
+
+;; ADDITIONAL SECTION:
+ns.practica.com.        604800  IN      A       10.10.0.12
+```
+
+```
+;; ANSWER SECTION:
+practica.com.           604800  IN      TXT     "texto de prueba"
+```
