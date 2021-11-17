@@ -81,7 +81,7 @@ Cuando un registro de este fichero finaliza con un "." significa que hemos intro
   ns        IN   A   10.10.0.12
   ```
   
-  Y
+  y
 
   ```
   @	      IN   NS	ns.practica.com.
@@ -94,7 +94,7 @@ Cuando un registro de este fichero finaliza con un "." significa que hemos intro
   ```
   indica la direccion ip de practica.com
 
-  Podemos asociar cada equipo del dominio con un nombre y una IP de forma que con:
+  -Podemos asociar cada equipo del dominio con un nombre y una IP de forma que con:
 
   ```
   maquina1  IN   A   10.10.0.2
@@ -102,7 +102,7 @@ Cuando un registro de este fichero finaliza con un "." significa que hemos intro
 
   cuando el servidor DNS reciba una solicitud DNS sobre maquina1.practica.com devolverá la IP 10.10.0.2
   
-  Utilizando el registro **_CNAME_** podemos introducir un alias para un equipo. Con
+  -Utilizando el registro **_CNAME_** podemos introducir un alias para un equipo. Con
 
   ```
   www       IN CNAME ns.practica.com.
@@ -110,7 +110,7 @@ Cuando un registro de este fichero finaliza con un "." significa que hemos intro
 
   Indicamos que www.practica.com es _otro_ nombre de ns.practica.com, por lo que al preguntar por www.practica.com recibiremos la IP 10.10.0.12.
 
-  Podemos añadir tambien un texto con informacion:
+  -Podemos añadir tambien un texto con informacion:
   ```
   @         in  TXT  "texto de prueba"
   ```
@@ -118,7 +118,7 @@ Cuando un registro de este fichero finaliza con un "." significa que hemos intro
 
   Servicios como Google utilizan a menudo los registros de texto. Nos pueden solicitar que agreguemos ciertas cadenas al registro TXT, de forma que los motores de búsqueda y otros servicios pueden buscar tu dominio y comprobar que somos su propietario.
   
-  Existen otros registros, como AAA (IPv6) o MX (se usa para dirigir los emails enviados a direcciones personalizadas relacionadas con el nombre de dominio).
+  -Existen otros registros, como AAA (IPv6) o MX (se usa para dirigir los emails enviados a direcciones personalizadas relacionadas con el nombre de dominio).
 
 + En definitiva, la configuración completa del archivo **db.practica.com** ha quedado de la siguiente manera:
 
